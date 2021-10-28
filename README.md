@@ -29,8 +29,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL (optional): [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [Github-link](https://github.com/VJ4538/URL-Shorenter)
+- Live Site URL: [Live-link](https://url-shortener-vincent.netlify.app/)
 
 ## My process
 
