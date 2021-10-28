@@ -441,6 +441,9 @@ a:active {
   align-items: center;
   padding: 15px 20%;
 }
+.social-icons svg {
+  display: flex !important;
+}
 .social-icons a {
   width: 30px;
   height: 30px;
@@ -659,7 +662,7 @@ a:active {
 
   .footer {
     flex-direction: unset;
-    justify-content: space-evenly;
+    justify-content: space-between;
     padding-top: 50px;
   }
   .footer img {
@@ -678,8 +681,13 @@ a:active {
   }
 
   .social-icons {
+    padding: 0 10px;
     align-items: unset;
-    padding: unset;
+  }
+}
+@media only screen and (min-width: 1025px) {
+  .social-icons, .footer-nav-container {
+    padding: 0 30px;
   }
 }
 

@@ -522,6 +522,9 @@ a{
         $align-items:center,
     );
     padding:15px 20%;
+    svg{
+        display:flex !important;
+    }
     a{
         width:30px;
         height:30px;
@@ -769,7 +772,7 @@ a{
     //Footer
     .footer{
         flex-direction:unset;
-        justify-content: space-evenly;
+        justify-content: space-between;
         padding-top:50px;
         img{
             margin-top:0;
@@ -788,8 +791,13 @@ a{
     }
 
     .social-icons{
+        padding:0 10px;
         align-items:unset;
-        padding:unset;
-    }
-    
+    } 
+}
+
+@media only screen and (min-width: 1025px) {
+    .social-icons,.footer-nav-container{
+        padding:0 30px;
+    } 
 }
