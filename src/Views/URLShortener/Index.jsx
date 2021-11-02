@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React from 'react'
 import Button from '../../Components/Button'
 import Container from '../../Components/Container'
 import Input from '../../Components/Input'
@@ -8,9 +8,6 @@ import Result from './Result'
 import ErrorMsg from '../../Components/ErrorMsg'
 
 export default function Index() {
-    const urlInputRef=useRef()
-    const [shortenedUrl, setShortenedUrl] = useState([])
-
     const validateInput = (urlInput,isTouched) =>{
         return urlInput.length>0&&isTouched===true
     }   
@@ -26,42 +23,22 @@ export default function Index() {
 
     //Custom http hook
     const {
-        sendingRequest,
         error,
-        setError,
-    }=useHttp()
+        InputRef,
+        isLoading,
+        response,
+        sendingRequest
+    }=useHttp(urlReset)
 
-    const handleSendingRequest = async () =>{
+    const handleSendingRequest = () =>{
         const isValid= urlValidaiton()
-        //Reset error state when sending request
-        setError()
-        //If input valid then send request
         if(isValid){
-            const response = await sendingRequest(`https://api.shrtco.de/v2/shorten?url=${urlInput.value}`)   
-            if(response.ok===true){
-                //if no error then reset url input field, localstorage and shortenedUrl list
-                setShortenedUrl([...shortenedUrl,response])
-                sessionStorage.setObj('ShortenUrl', [...shortenedUrl,response])
-                urlReset()
-                urlInputRef.current.classList.remove('input-error')
-            }else{
-                //if reponse return error focus input
-                urlInputRef.current.focus()
-                urlInputRef.current.classList.add('input-error')
-            } 
+            sendingRequest(`https://api.shrtco.de/v2/shorten?url=${urlInput.value}`)
         }else{
-            //if error focus input
-            urlInputRef.current.focus()
+            //if input missing focus input
+            InputRef.current.focus()
         }
     }
-
-    useEffect(()=>{
-        const list =sessionStorage.getObj('ShortenUrl')
-        // console.log('list',list)
-        if(list){
-            setShortenedUrl([...list])
-        }
-    },[])
 
     return (
         <>
@@ -73,7 +50,7 @@ export default function Index() {
                 // error={urlInputValid}
                 isValid={urlInput.isValid}
                 errorMsg={'Please add a link'}
-                refValue={urlInputRef}
+                refValue={InputRef}
             />
             <Button 
                 text='Shorten It!'
@@ -83,15 +60,20 @@ export default function Index() {
             />
         </Container>
         <Container className='results-container'>
-            {error&&!error.ok&&
+            {error&&
                 <ErrorMsg 
                     className='error-msg' 
                     errorMsg={error.error} 
                 />
             }
-            {shortenedUrl.length>0&&shortenedUrl.map((each,idx)=>{
+            
+            {response.length>0&&response.map((each,idx)=>{
                 return(
-                    <Result data={each} />
+                    isLoading
+                    ?<p>Loading ...</p>
+                    :<Result data={each} />
+                    
+                    
                 )
             })}
             
@@ -100,11 +82,3 @@ export default function Index() {
     )
 }
 
-//Storing obj & array
-Storage.prototype.setObj = function(key, obj) {
-    return this.setItem(key, JSON.stringify(obj))
-}
-
-Storage.prototype.getObj = function(key) {
-    return JSON.parse(this.getItem(key))
-}

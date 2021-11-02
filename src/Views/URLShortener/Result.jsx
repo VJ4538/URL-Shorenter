@@ -4,9 +4,10 @@ import Container from '../../Components/Container'
 import Title from '../../Components/Title'
 
 export default function Result({data}) {
-    const originalLink= data.result.original_link&&data.result.original_link
-    const shortenLink= data.result.full_short_link&&data.result.full_short_link
+    const originalLink= data.original_link&&data.original_link
+    const shortenLink= data.full_short_link&&data.full_short_link
     const shortenLinkRef =useRef(null)
+
 
     const copyToClipBoard = (e) =>{
         //Copy to clipboard
