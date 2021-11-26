@@ -58,7 +58,7 @@ const useInput=(validationFn)=>{
     return{
         inputValue: inputState,
         reset,
-        // isInputValid,
+        setValue,
         checkValidOnSubmit,
         handleInputChange,
     }

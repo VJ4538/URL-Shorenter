@@ -60,12 +60,13 @@ const useHttp=(resetFn)=>{
             })
             const data = await response.json()
             if(data.ok===true){
-                // console.log('Success')
-                const result = data.result
-                sessionStorage.setObj('ShortenUrl', [...state.response,result])
-                dispatch({type:'Success', payload:result})
+                // console.log('Success')  
+                const response = data.result
+                sessionStorage.setObj('ShortenUrl', [...state.response,response])
+                dispatch({type:'Success', payload:response})
                 InputRef.current.classList.remove('input-error')
                 resetFn()
+                return response;
             }else{
                 // console.log('Error')
                 const result = data
@@ -75,7 +76,7 @@ const useHttp=(resetFn)=>{
             }
     
         }catch(e){
-            console.log(e)
+            console.error(e)
             dispatch({type:'Error',payload:'Something went wrong!'})
         }
     }

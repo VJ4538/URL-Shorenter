@@ -22,7 +22,6 @@ export default function Result({data}) {
         e.target.classList.add('copied-button')
         e.target.innerText='Copied!'
     }
-    
     return (
         <Container className='result'>
             <Title className='original-link' size='h3' title={originalLink} />

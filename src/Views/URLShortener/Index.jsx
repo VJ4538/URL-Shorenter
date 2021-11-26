@@ -16,6 +16,7 @@ export default function Index() {
     const {
         inputValue:urlInput,
         // isInputValid:urlInputValid, Validate on input Change
+        setValue:setUrlValue,
         handleInputChange:handleUrlInputChange,
         reset:urlReset,
         checkValidOnSubmit:urlValidaiton,
@@ -30,10 +31,12 @@ export default function Index() {
         sendingRequest
     }=useHttp(urlReset)
 
-    const handleSendingRequest = () =>{
+    const handleSendingRequest = async () =>{
         const isValid= urlValidaiton()
         if(isValid){
-            sendingRequest(`https://api.shrtco.de/v2/shorten?url=${urlInput.value}`)
+            const response= await sendingRequest(`https://api.shrtco.de/v2/shorten?url=${urlInput.value}`)
+            setUrlValue(response.full_short_link)
+
         }else{
             //if input missing focus input
             InputRef.current.focus()
@@ -54,9 +57,7 @@ export default function Index() {
             />
             <Button 
                 text='Shorten It!'
-                onClick={()=>{
-                    handleSendingRequest()
-                }}
+                onClick={handleSendingRequest}
             />
         </Container>
         <Container className='results-container'>
